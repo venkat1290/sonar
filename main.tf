@@ -8,7 +8,7 @@ provider "azurerm" {
 
 # Create a resource group if it doesn’t exist
 
-resource "azurerm_resource_group" "testgroup" {
+resource "azurerm_resource_group" "sonargroup" {
     name     = "TestGroup"
     location = "eastus"
 
@@ -30,7 +30,7 @@ resource "azurerm_virtual_network" "sonarnetwork" {
 
     location            = "eastus"
 
-    resource_group_name = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name = "${azurerm_resource_group.sonargroup.name}"
 
 
 
@@ -50,7 +50,7 @@ resource "azurerm_subnet" "sonarsubnet" {
 
     name                 = "sonarSubnet"
 
-    resource_group_name  = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name  = "${azurerm_resource_group.sonargroup.name}"
 
     virtual_network_name = "${azurerm_virtual_network.sonarnetwork.name}"
 
@@ -68,7 +68,7 @@ resource "azurerm_public_ip" "sonarpublicip" {
 
     location                     = "eastus"
 
-    resource_group_name          = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name          = "${azurerm_resource_group.sonargroup.name}"
 
     public_ip_address_allocation = "Dynamic"
 
@@ -90,7 +90,7 @@ resource "azurerm_network_security_group" "sonarnsg" {
 
     location            = "eastus"
 
-    resource_group_name = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name = "${azurerm_resource_group.sonargroup.name}"
 
     
 
@@ -135,7 +135,7 @@ resource "azurerm_network_interface" "sonarnic" {
 
     location                  = "eastus"
 
-    resource_group_name       = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name       = "${azurerm_resource_group.sonargroup.name}"
 
     network_security_group_id = "${azurerm_network_security_group.sonarnsg.id}"
 
@@ -173,7 +173,7 @@ resource "random_id" "sonarrandomId" {
 
         # Generate a new ID only when a new resource group is defined
 
-        resource_group = "${azurerm_resource_group.testgroup.name}"
+        resource_group = "${azurerm_resource_group.sonargroup.name}"
 
     }
 
@@ -193,7 +193,7 @@ resource "azurerm_virtual_machine" "sonarvm" {
 
     location              = "eastus"
 
-    resource_group_name   = "${azurerm_resource_group.testgroup.name}"
+    resource_group_name   = "${azurerm_resource_group.sonargroup.name}"
 
     network_interface_ids = ["${azurerm_network_interface.sonarnic.id}"]
 
@@ -272,7 +272,7 @@ resource "azurerm_virtual_machine" "sonarvm" {
 resource "azurerm_virtual_machine_extension" "sonarextension" {
       name                 = "sonarVM"
       location             = "East US"
-      resource_group_name  = "${azurerm_resource_group.testgroup.name}"
+      resource_group_name  = "${azurerm_resource_group.sonargroup.name}"
       virtual_machine_name = "${azurerm_virtual_machine.sonarvm.name}"
       publisher            = "Microsoft.OSTCExtensions"
       type                 = "CustomScriptForLinux"
