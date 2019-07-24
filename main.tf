@@ -52,7 +52,7 @@ resource "azurerm_subnet" "sonarsubnet" {
 
     resource_group_name  = "${azurerm_resource_group.testgroup.name}"
 
-    virtual_network_name = "${azurerm_virtual_network.testnetwork.name}"
+    virtual_network_name = "${azurerm_virtual_network.sonarnetwork.name}"
 
     address_prefix       = "10.0.1.0/24"
 
@@ -167,7 +167,7 @@ resource "azurerm_network_interface" "sonarnic" {
 
 # Generate random text for a unique storage account name
 
-resource "random_id" "testrandomId" {
+resource "random_id" "sonarrandomId" {
 
     keepers = {
 
@@ -195,7 +195,7 @@ resource "azurerm_virtual_machine" "sonarvm" {
 
     resource_group_name   = "${azurerm_resource_group.testgroup.name}"
 
-    network_interface_ids = ["${azurerm_network_interface.testnic.id}"]
+    network_interface_ids = ["${azurerm_network_interface.sonarnic.id}"]
 
     vm_size               = "Standard_DS1_v2"
 
@@ -203,7 +203,7 @@ resource "azurerm_virtual_machine" "sonarvm" {
 
     storage_os_disk {
 
-        name              = "testDisk"
+        name              = "sonarDisk"
 
         caching           = "ReadWrite"
 
@@ -244,14 +244,6 @@ resource "azurerm_virtual_machine" "sonarvm" {
     os_profile_linux_config {
 
         disable_password_authentication = false
-
-    }
-
-    boot_diagnostics {
-
-        enabled = "true"
-
-        storage_uri = "${azurerm_storage_account.teststorageaccount.primary_blob_endpoint}"
 
     }
 
