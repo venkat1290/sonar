@@ -115,8 +115,6 @@ resource "azurerm_virtual_machine" "sonarvm" {
 
     resource_group_name   = "${azurerm_resource_group.sonargroup.name}"
 
-    network_interface_ids = ["${azurerm_network_interface.sonarnic.id}"]
-
     vm_size               = "Standard_DS1_v2"
 
 
