@@ -22,9 +22,9 @@ resource "azurerm_resource_group" "testgroup" {
 
 # Create virtual network
 
-resource "azurerm_virtual_network" "testnetwork" {
+resource "azurerm_virtual_network" "sonarnetwork" {
 
-    name                = "testVnet"
+    name                = "sonarVnet"
 
     address_space       = ["10.0.0.0/16"]
 
@@ -46,9 +46,9 @@ resource "azurerm_virtual_network" "testnetwork" {
 
 # Create subnet
 
-resource "azurerm_subnet" "testsubnet" {
+resource "azurerm_subnet" "sonarsubnet" {
 
-    name                 = "testSubnet"
+    name                 = "sonarSubnet"
 
     resource_group_name  = "${azurerm_resource_group.testgroup.name}"
 
@@ -62,9 +62,9 @@ resource "azurerm_subnet" "testsubnet" {
 
 # Create public IPs
 
-resource "azurerm_public_ip" "testpublicip" {
+resource "azurerm_public_ip" "sonarpublicip" {
 
-    name                         = "testPublicIP"
+    name                         = "sonarPublicIP"
 
     location                     = "eastus"
 
@@ -84,9 +84,9 @@ resource "azurerm_public_ip" "testpublicip" {
 
 # Create Network Security Group and rule
 
-resource "azurerm_network_security_group" "testnsg" {
+resource "azurerm_network_security_group" "sonarnsg" {
 
-    name                = "testSecurityGroup"
+    name                = "sonarSecurityGroup"
 
     location            = "eastus"
 
@@ -129,9 +129,9 @@ resource "azurerm_network_security_group" "testnsg" {
 
 # Create network interface
 
-resource "azurerm_network_interface" "testnic" {
+resource "azurerm_network_interface" "sonarnic" {
 
-    name                      = "testNIC"
+    name                      = "sonarNIC"
 
     location                  = "eastus"
 
@@ -143,7 +143,7 @@ resource "azurerm_network_interface" "testnic" {
 
     ip_configuration {
 
-        name                          = "testnicConfiguration"
+        name                          = "sonarnicConfiguration"
 
         subnet_id                     = "${azurerm_subnet.testsubnet.id}"
 
@@ -180,32 +180,6 @@ resource "random_id" "testrandomId" {
     
 
     byte_length = 8
-
-}
-
-
-
-# Create storage account for boot diagnostics
-
-resource "azurerm_storage_account" "teststorageaccount" {
-
-    name                        = "storeage1091"
-
-    resource_group_name         = "${azurerm_resource_group.testgroup.name}"
-
-    location                    = "eastus"
-
-    account_type		= "Standard_LRS"
-
-    enable_blob_encryption  	= "true"
-
-
-
-    tags = {
-
-        environment = "Terraform Demo"
-
-    }
 
 }
 
