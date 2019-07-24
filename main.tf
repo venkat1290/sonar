@@ -137,7 +137,7 @@ resource "azurerm_network_interface" "sonarnic" {
 
     resource_group_name       = "${azurerm_resource_group.testgroup.name}"
 
-    network_security_group_id = "${azurerm_network_security_group.testnsg.id}"
+    network_security_group_id = "${azurerm_network_security_group.sonarnsg.id}"
 
 
 
@@ -145,11 +145,11 @@ resource "azurerm_network_interface" "sonarnic" {
 
         name                          = "sonarnicConfiguration"
 
-        subnet_id                     = "${azurerm_subnet.testsubnet.id}"
+        subnet_id                     = "${azurerm_subnet.sonarsubnet.id}"
 
         private_ip_address_allocation = "Dynamic"
 
-        public_ip_address_id          = "${azurerm_public_ip.testpublicip.id}"
+        public_ip_address_id          = "${azurerm_public_ip.sonarpublicip.id}"
 
     }
 
